@@ -32,13 +32,13 @@ export function getFunctions() {
             type: "string",
             description: "Curated use case of said film recipe"
           },
-          iso: {
-            type: "string",
-            description: "ISO ranges from certain number to a maximum",
-          },
           colorProfile: {
             type: "string",
             description: "The color profile of the film (e.g., Classic Chrome, Velvia, etc.)",
+          },
+          iso: {
+            type: "string",
+            description: "ISO ranges from certain number to a maximum",
           },
           dynamicRange: {
             type: "string",
