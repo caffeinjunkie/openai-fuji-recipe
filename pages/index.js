@@ -35,7 +35,6 @@ export default function Home() {
       <main className="container">
         <h1 className={inter.className}>OpenAI Fujifilm Custom Recipe </h1>
         <form onSubmit={handleSubmit}>
-          <ResponseDisplay data={data} error={error} loading={loading} />
           <div className="prompt-view">
             <TextInput
               value={inputValue}
@@ -44,6 +43,7 @@ export default function Home() {
             />
             <SubmitButton disabled={loading} />
           </div>
+          {data && <ResponseDisplay data={data} error={error} loading={loading} />}
         </form>
       </main>
     </>

@@ -1,24 +1,19 @@
 const ResponseDisplay = ({ data, error, loading }) => {
-  let content;
+  const {
+    description,
+    exampleUse,
+    optionalAdjustment,
+    effectAndAesthetic,
+    ...cameraSettings
+  } = data.result;
 
   if (loading) {
-    content = "Loading...";
+    return <div>loading</div>
   } else if (error) {
-    content = `Error: ${error.message}`;
-  } else if (data) {
-    console.log("Data from OpenAI API in display: ", data.result);
-
-    content = (
-      <>
-     
-        <p><b>Description of this film</b>: {data.result.description}</p>
-      </>
-    );
-  } else {
-    content = "";
+    return <div>error</div>
   }
 
-  return <div className="response-display">{content}</div>;
+  return <div className="response-display">{Object.entries(cameraSettings).map((value) => <div>{value}</div>)}</div>;
 };
 
 export default ResponseDisplay;

@@ -47,7 +47,6 @@ export default async function (req, res) {
 
     const resultContent = completion.data.choices[0].message.function_call.arguments;
 
-    console.log(completion.data.choices[0], 'tess')
     try {
       console.log("Data from OpenAI API: ", resultContent);
       const jsonResult = JSON.parse(resultContent);
