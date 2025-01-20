@@ -36,12 +36,14 @@ export default function Home() {
         <h1 className={inter.className}>OpenAI Fujifilm Custom Recipe </h1>
         <form onSubmit={handleSubmit}>
           <ResponseDisplay data={data} error={error} loading={loading} />
-          <TextInput
-            value={inputValue}
-            onChange={handleInputChange}
-            placeholder={"Enter a prompt"}
-          />
-          <SubmitButton disabled={loading} />
+          <div className="prompt-view">
+            <TextInput
+              value={inputValue}
+              onChange={handleInputChange}
+              placeholder={"Enter a prompt"}
+            />
+            <SubmitButton disabled={loading} />
+          </div>
         </form>
       </main>
     </>

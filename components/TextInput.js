@@ -1,7 +1,6 @@
 const TextInput = ({ value, onChange, placeholder }) => {
   return (
-    <input
-      type="text"
+    <textarea
       value={value}
       onChange={onChange}
       className="text-input"
