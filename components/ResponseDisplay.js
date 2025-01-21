@@ -1,5 +1,6 @@
 const ResponseDisplay = ({ data, error, loading }) => {
   const {
+    title,
     description,
     exampleUse,
     optionalAdjustments,
@@ -14,6 +15,12 @@ const ResponseDisplay = ({ data, error, loading }) => {
   }
 
   return <div className="response-display">
+    <p className="pre-text">
+      Custom Recipe
+    </p>
+    <h1 className="title">
+      {title}
+    </h1>
     <Grid data={cameraSettings} />
   </div>;
 };

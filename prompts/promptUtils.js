@@ -20,6 +20,10 @@ export function getFunctions() {
       parameters: {
         type: "object",
         properties: {
+          title: {
+            type: "string",
+            description: "The name of the custom recipe"
+          },
           description: {
             type: "string",
             description: "A brief description of the suggested film recipe.",
