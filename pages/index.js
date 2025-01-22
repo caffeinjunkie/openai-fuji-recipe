@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { Inter } from "next/font/google";
-import { useState } from "react";
+import { useState, useLayoutEffect, useEffect, useRef } from "react";
 
 import TextInput from "@/components/TextInput";
 import SubmitButton from "@/components/SubmitButton";
@@ -19,6 +19,28 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const error = false;
   const [isExpanded, setIsExpanded] = useState(false);
+  const [isDesktopTitleVisible, setIsDesktopTitleVisible] = useState(false);
+  const targetRef = useRef(null);
+
+  useLayoutEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsDesktopTitleVisible(!entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+
+    const target = targetRef.current;
+    if (target) {
+      observer.observe(target);
+    }
+
+    return () => {
+      if (target) {
+        observer.unobserve(target);
+      }
+    };
+  }, [isExpanded]);
 
   const handleExpand = () => {
     setIsExpanded(true);
@@ -34,9 +56,9 @@ export default function Home() {
       description: "A whimsical and vibrant film recipe inspired by Wes Anderson's unique visual style, perfect for capturing colorful and symmetrical compositions.",
       effectAndAesthetic: "This recipe enhances pastel colors and provides a soft, dreamy look, reminiscent of Wes Anderson's films.",
       exampleUse: "Ideal for shooting scenes in quirky cafes, vintage shops, or during playful outdoor adventures.",
-      colorProfile: "Classic Chrome",
       iso: "200-800",
       dynamicRange: "dr200",
+      colorProfile: "Classic Chrome",
       highlight: 1,
       shadow: 2,
       color: 3,
@@ -83,7 +105,7 @@ export default function Home() {
       <main className="main-container">
         <div className="container">
           <div className={`sidebar ${isExpanded ? 'slide-out' : 'slide-in'}`}>
-            <Image src={fxLogo} width={56} height={56} />
+            <Image src={fxLogo} width={56} height={56} alt="icon" />
             <h1>Find Recipe</h1>
             {!isExpanded && (
               <button className="search-btn" onClick={handleExpand}>
@@ -102,16 +124,29 @@ export default function Home() {
             {/*    <SubmitButton disabled={loading}/>*/}
             {/*  </div>*/}
             {/*</form>*/}
-            {(data && isExpanded)  && <ResponseDisplay data={data} error={error} loading={loading}/>}
+            {(data && isExpanded) && <ResponseDisplay
+              data={data}
+              error={error}
+              loading={loading}
+            >
+              <>
+                <p className="pre-text" ref={targetRef}>
+                  Custom Recipe
+                </p>
+                <h1 className="title">
+                  {data.result.title}
+                </h1>
+              </>
+            </ResponseDisplay>}
           </div>
-          <div className={`nav-header ${isExpanded ? 'slide-in' : 'slide-out'}`}>
+          <div className={`nav-header ${isExpanded ? 'slide-in' : 'slide-out'} ${isDesktopTitleVisible ? 'intersecting' : ''}`}>
             <button
               className="back-btn"
               onClick={handleCollapse}
             >
-              <Image src={ChevronLeft} alt="" height={32} width={32} />
+              <Image src={ChevronLeft} alt="back button" height={32} width={32} />
             </button>
-            {(isExpanded && data) && <p className="mobile-title">{data.result.title}</p>}
+            {(isExpanded && data) && <p className={`mobile-title ${isDesktopTitleVisible ? 'intersecting' : ''}`}>{data.result.title}</p>}
           </div>
         </div>
       </main>

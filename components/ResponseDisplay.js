@@ -1,4 +1,6 @@
-const ResponseDisplay = ({ data, error, loading }) => {
+import React from 'react';
+
+const ResponseDisplay = ({ data, error, loading, children }) => {
   const {
     title,
     description,
@@ -15,17 +17,23 @@ const ResponseDisplay = ({ data, error, loading }) => {
   }
 
   return <div className="response-display">
-    <p className="pre-text">
-      Custom Recipe
-    </p>
-    <h1 className="title">
-      {title}
-    </h1>
+    {children}
+    <p className="description">{`"${description} ${exampleUse}"`}</p>
     <Grid data={cameraSettings} />
+    <div className="additional-info">
+      <div className="add-info-container">
+        <h1 className="add-info-heading">Aesthetics</h1>
+        <p className="add-info-text">{effectAndAesthetic}</p>
+      </div>
+      <div className="info-container">
+        <h1 className="add-info-heading">Optional Adjustments</h1>
+        <p className="add-info-text">{optionalAdjustments}</p>
+      </div>
+    </div>
   </div>;
 };
 
-const Grid = ({ data }) => {
+const Grid = ({data}) => {
   const {
     whiteBalance,
     whiteBalanceShiftBlue = 0,
@@ -51,17 +59,13 @@ const Grid = ({ data }) => {
 
   return (
     <div className="grid-container">
-      <div className="grid-item full-width">
-        <p className="camera-settings-value">{`${wbText}${wbShiftBlue}${wbShiftRed}`}</p>
-        <p className="camera-settings-name">White Balance</p>
-      </div>
       {entries.map(([key, value], index) => (
         <div
           key={index}
           className={`
             grid-item 
             ${index === (entries.length - 1) && isLastItemFullSpan ? 'last-item' : ''} 
-            ${index === 0 ? 'large-item' : ''}
+            ${index === 2 ? 'large-item' : ''}
             ${key === "grain" ? 'full-width' : ''}
             ${key === "exposureCompensation" ? 'full-width' : ''}
           `}
@@ -70,6 +74,10 @@ const Grid = ({ data }) => {
           <p className="camera-settings-name">{key}</p>
         </div>
       ))}
+      <div className="grid-item full-width">
+        <p className="camera-settings-value">{`${wbText}${wbShiftBlue}${wbShiftRed}`}</p>
+        <p className="camera-settings-name">White Balance</p>
+      </div>
     </div>
   );
 };
